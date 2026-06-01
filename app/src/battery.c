@@ -44,9 +44,9 @@ static const struct device *const battery = DEVICE_DT_GET(DT_CHOSEN(zmk_battery)
 static const struct device *battery;
 #endif
 
-extern struct bt_conn *destination_connection();
-extern int bt_bas_set_battery_level_fix(struct bt_conn *conn,uint8_t level);
-extern void bt_conn_unref(struct bt_conn *conn);
+//extern struct bt_conn *destination_connection();
+//extern int bt_bas_set_battery_level_fix(struct bt_conn *conn,uint8_t level);
+//extern void bt_conn_unref(struct bt_conn *conn);
 
 static int zmk_battery_update(const struct device *battery) {
     struct sensor_value state_of_charge;
@@ -86,9 +86,10 @@ static int zmk_battery_update(const struct device *battery) {
         LOG_DBG("Setting BAS GATT battery level to %d.", last_state_of_charge);
 
         // rc = bt_bas_set_battery_level(last_state_of_charge);
-        struct bt_conn *conn=destination_connection();
-        rc = bt_bas_set_battery_level_fix(conn,last_state_of_charge);
-        bt_conn_unref(conn);
+        //struct bt_conn *conn=destination_connection();
+        //rc = bt_bas_set_battery_level_fix(conn,last_state_of_charge);
+          rc = bt_bas_set_battery_level(last_state_of_charge);
+        //bt_conn_unref(conn);
 
         if (rc != 0) {
             LOG_WRN("Failed to set BAS GATT battery level (err %d)", rc);
